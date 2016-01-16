@@ -21,9 +21,9 @@ public class Board {
     public int NOCONNECTION=-1;
     public int TIE=0;
 	
-    public Board(int height, int width, int N){
-	this.width=width;
-	this.height=height;
+    public Board(int height1, int width1, int N1){
+	width=width1;
+	height=height1;
 	board =new int[height][width];
 	for(int i=0;i<height;i++)
 	    for(int j=0;j<width;j++){
@@ -32,12 +32,12 @@ public class Board {
 	numOfDiscsInColumn=new int[this.width];
 	//		for(int j=0;j<width;j++)
 	//			numOfDiscsInColumn[j]=0;
-	this.N=N;
+	N=N1;
     }
 
     public Board(Board toClone) {
-	this.board= toClone.board;
-	this.numOfDiscsInColumn = toClone.numOfDiscsInColumn;
+    	this.board= toClone.board;
+    	this.numOfDiscsInColumn = toClone.numOfDiscsInColumn;
     }
     
     public void printBoard(){

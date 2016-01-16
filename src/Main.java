@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,7 +11,6 @@ public class Main {
     public static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     public static String name = "RyanAndAdilet";
     public static Board board;
-    public static MinMax minmax;
     private static void processInput(Integer column, Integer moveType) {
 	if(moveType == 1) {
 	    board.dropADiscFromTop(column, 2);
@@ -48,7 +48,6 @@ public class Main {
 	goingFirst = (Integer.parseInt(ls1.get(3)) == 1) ^ player1;
 	timeLimit = Integer.parseInt(ls1.get(4));
 	board = new Board(rows, columns, connectN);
-	minmax = new minmax(board);
 	if(goingFirst) {
 	    board.dropADiscFromTop(columns/2, 1);
 	}
@@ -76,5 +75,6 @@ public class Main {
 		
 	    }
 	}
+	return node.heuristic();
     }
 }
