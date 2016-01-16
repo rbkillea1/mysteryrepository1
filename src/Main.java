@@ -8,14 +8,16 @@ public class Main {
     public static int rows, columns, connectN, timeLimit;
     public static boolean player1, goingFirst;
     public static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-    public static String name = "Ryan and Adilet";
+    public static String name = "RyanAndAdilet";
     public static Board board;
+    public static MinMax minmax;
     private static void processInput(Integer column, Integer moveType) {
 	if(moveType == 1) {
 	    board.dropADiscFromTop(column, 2);
 	} else {
 	    board.removeADiscFromBottom(column);
 	}
+	
 	// print output at the end of this function
     }
     public static void main(String[] args) {
@@ -46,6 +48,7 @@ public class Main {
 	goingFirst = (Integer.parseInt(ls1.get(3)) == 1) ^ player1;
 	timeLimit = Integer.parseInt(ls1.get(4));
 	board = new Board(rows, columns, connectN);
+	minmax = new minmax(board);
 	if(goingFirst) {
 	    board.dropADiscFromTop(columns/2, 1);
 	}
@@ -61,5 +64,17 @@ public class Main {
 		processInput(Integer.parseInt(s11.substring(0,1)), Integer.parseInt(s11.substring(2,3)));
 	    }
         }
+    }
+
+    public int alphaBeta(Node node, int depth, int alpha, int beta, boolean maximizingPlayer) {
+	if(depth == 0 || node.isTerminal()) {
+	    return node.heuristic();
+	}
+	ArrayList<Node> children = node.children();
+	if(maximizingPlayer) {
+	    for(Node c : children) {
+		
+	    }
+	}
     }
 }
