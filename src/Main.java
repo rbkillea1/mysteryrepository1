@@ -70,11 +70,26 @@ public class Main {
 	    return node.heuristic();
 	}
 	ArrayList<Node> children = node.children();
+	int bestSoFar;
 	if(maximizingPlayer) {
+	    bestSoFar = Integer.MIN_VALUE;
 	    for(Node c : children) {
-		
+		bestSoFar = max(bestSoFar, alphaBeta(c, depth - 1, alpha, beta, false));
+		alpha = max(alpha, bestSoFar);
+		if(beta <= alpha) {
+		    break;
+		}
+	    }
+	} else {
+	    bestSoFar = Integer.MAX_VALUE;
+	    for(Node c : children) {
+		bestSoFar = min(bestSoFar, alphaBeta(c, depth - 1, alpha, beta, true));
+		beta = min(bestSoFar, beta);
+		if(beta <= alpha) {
+		    break;
+		}
 	    }
 	}
-	return node.heuristic();
+	return bestSoFar;
     }
 }
