@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -74,8 +75,8 @@ public class Main {
 	if(maximizingPlayer) {
 	    bestSoFar = Integer.MIN_VALUE;
 	    for(Node c : children) {
-		bestSoFar = max(bestSoFar, alphaBeta(c, depth - 1, alpha, beta, false));
-		alpha = max(alpha, bestSoFar);
+		bestSoFar = Math.max(bestSoFar, alphaBeta(c, depth - 1, alpha, beta, false));
+		alpha = Math.max(alpha, bestSoFar);
 		if(beta <= alpha) {
 		    break;
 		}
@@ -83,8 +84,8 @@ public class Main {
 	} else {
 	    bestSoFar = Integer.MAX_VALUE;
 	    for(Node c : children) {
-		bestSoFar = min(bestSoFar, alphaBeta(c, depth - 1, alpha, beta, true));
-		beta = min(bestSoFar, beta);
+		bestSoFar = Math.min(bestSoFar, alphaBeta(c, depth - 1, alpha, beta, true));
+		beta = Math.min(bestSoFar, beta);
 		if(beta <= alpha) {
 		    break;
 		}
