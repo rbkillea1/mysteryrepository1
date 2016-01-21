@@ -83,12 +83,12 @@ public class Node {
 		if(board[Board.height-1-y][x] == 1){
 		    max1++;
 		    max2=0;
-		    rtn += max1 + 1;
+		    rtn += max1/2;
 		}
 		else if(board[Board.height-1-y][x] == 2){
 		    max1=0;
 		    max2++;
-		    rtn -= max2;
+		    rtn -= max2/2;
 		}
 		else{
 		    max1=0;
@@ -113,12 +113,12 @@ public class Node {
 		if(board[Board.height-1-y][x] == 1){
 		    max1++;
 		    max2=0;
-		    rtn += max1 + 1;
+		    rtn += max1/2;
 		}
 		else if(board[Board.height-1-y][x] == 2){
 		    max1=0;
 		    max2++;
-		    rtn -= max2 + 1;
+		    rtn -= max2/2;
 		}
 		else{
 		    max1=0;

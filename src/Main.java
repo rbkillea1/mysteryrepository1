@@ -71,6 +71,7 @@ public class Main {
         }
     }
 
+    // Because we can't prune anything directly below the top level, don't attempt to do so
     public ArrayList<Integer> determineMove() {
 	ArrayList<Integer> rtn = new ArrayList<Integer>();
 	rtn.add(3);
