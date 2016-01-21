@@ -12,6 +12,8 @@ public class Main {
     public static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     public static String name = "RyanAndAdilet";
     public static Board board;
+    public static long turnStartTime;
+    public static int BRANCH_FACTOR_DROP = 4;
     private static void processInput(Integer column, Integer moveType) {
 	if(moveType == 1) {
 	    board.dropADiscFromTop(column, 2);
@@ -47,15 +49,18 @@ public class Main {
 	columns = Integer.parseInt(ls1.get(1));
 	connectN = Integer.parseInt(ls1.get(2));
 	goingFirst = (Integer.parseInt(ls1.get(3)) == 1) ^ player1;
+	turn = goingFirst? 1 : 2;
 	timeLimit = Integer.parseInt(ls1.get(4));
 	board = new Board(rows, columns, connectN);
 	if(goingFirst) {
 	    board.dropADiscFromTop(columns/2, 1);
+	    System.out.println(
 	}
 	while(true) {
 	    String s11 = null;
 		try {
 			s11 = input.readLine();
+			turnStartTime = System.nanoTime();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,8 +71,48 @@ public class Main {
         }
     }
 
+    public ArrayList<Integer> determineMove() {
+	ArrayList<Integer> rtn = new ArrayList<Integer>();
+	rtn.add(3);
+	rtn.add(1);
+	int bestValue = Integer.MIN_VALUE;
+	for(int i = 0; i < Board.width; i++) {
+	    if(board.canDropADiscFromTop(i, turn)) {
+	    	Node tmp = new Node (new Board(board), turn);
+	    	tmp.board.dropADiscFromTop(i, turn);
+		int candidateValue = alphaBeta(tmp, DEPTH, bestValue, Integer.MIN_VALUE, false);
+	        if(candidateValue > bestValue) {
+		    bestValue = candidateValue;
+		    rtn.set(0, i);
+		    rtn.set(1, 1);
+		    if(candidateValue = Integer.MAX_VALUE) break;
+		}
+	    }
+	    if(board.canRemoveADiscFromBottom(i, turn)) {
+	    	Node tmp = new Node(new Board(board),
+	    			(turn * 2) % 3);
+	    	tmp.board.removeADiscFromBottom(i);
+		int candidateValue = alphaBeta(tmp, DEPTH, bestValue, Integer.MIN_VALUE, false);
+	        if(candidateValue > bestValue) {
+		    bestValue = candidateValue;
+		    rtn.set(0, i);
+		    rtn.set(1, 2);
+		    if(candidateValue = Integer.MAX_VALUE) break;
+		}
+	    }
+	}
+	return rtn;
+    }
+    
     public int alphaBeta(Node node, int depth, int alpha, int beta, boolean maximizingPlayer) {
-	if(depth == 0 || node.isTerminal()) {
+	int isConnectN = node.board.isConnectN()
+	if(isConnectN == 0) {
+	    return maximizingPlayer ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+	} else if(isConnectN == 1) {
+	    return Integer.MAX_VALUE; 
+	} else if(isConnectN == 2) {
+	    return Integer.MIN_VALUE;
+	} else if(depth == 0 || System.nanoTime() - turnStartTime > (timeLimit-1)*1000000000L) {
 	    return node.heuristic();
 	}
 	ArrayList<Node> children = node.children();
