@@ -20,7 +20,7 @@ public class Board {
     public int PLAYER2=2;
     public int NOCONNECTION=-1;
     public int TIE=0;
-    public boolean[2] canRemoveDiscs = {true, true};
+    public boolean[] canRemoveDiscs = {true, true};
     public Board(int height1, int width1, int N1){
 	width=width1;
 	height=height1;
@@ -29,23 +29,42 @@ public class Board {
 	    for(int j=0;j<width;j++){
 		board[i][j]=this.emptyCell;
 	    }
-	numOfDiscsInColumn=new int[this.width];
+	numOfDiscsInColumn=new int[Board.width];
 	//		for(int j=0;j<width;j++)
 	//			numOfDiscsInColumn[j]=0;
 	N=N1;
     }
 
     public Board(Board toClone) {
-    	this.board = toClone.board;
-    	this.numOfDiscsInColumn = toClone.numOfDiscsInColumn;
-	this.canRemoveDiscs = toClone.canRemoveDiscs;
+    	this.board = new int[height][width];
+    	for(int i = 0; i < toClone.board.length; i++) {
+    		for(int j = 0; j < toClone.board[0].length; j++) {
+    			board[i][j] = toClone.board[i][j];
+    		}
+    	}
+    	this.numOfDiscsInColumn = new int[toClone.numOfDiscsInColumn.length];
+    	for(int i = 0; i < toClone.numOfDiscsInColumn.length; i++) {
+    		this.numOfDiscsInColumn[i] = toClone.numOfDiscsInColumn[i];
+    	}
+    	this.canRemoveDiscs = new boolean[2];
+    	this.canRemoveDiscs[0] = toClone.canRemoveDiscs[0];
+    	this.canRemoveDiscs[1] = toClone.canRemoveDiscs[1];
     }
+    
+    public void printBoard(){
+		 System.out.println("Board: ");
+		 for(int i=0;i<Board.height;i++){
+				for(int j=0;j<Board.width;j++){
+					System.out.print(board[i][j]+" ");
+				}
+				System.out.println();
+		 }
+	 }
 	 
     public boolean canRemoveADiscFromBottom(int col, int currentPlayer){
-	if(col >= width || board[height-1][col]!=currentPlayer || !canRemoveDiscs[currentPlayer]){
+	if(col >= width || board[height-1][col]!=currentPlayer || !canRemoveDiscs[currentPlayer-1]){
 	    return false;
 	} else {
-	    canRemoveDiscs[currentPlayer] = false;
 	    return true;
 	}
     }
@@ -54,6 +73,7 @@ public class Board {
 	 
     public void removeADiscFromBottom(int col){
 	int i;
+    canRemoveDiscs[board[height-1][col] - 1] = false;
 	for(i=height-1;i>height-this.numOfDiscsInColumn[col];i--){
 	    board[i][col]=board[i-1][col];
 	}
