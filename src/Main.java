@@ -116,10 +116,13 @@ public class Main {
     public static int alphaBeta(Node node, int depth, int alpha, int beta, boolean maximizingPlayer) {
 	int isConnectN = node.board.isConnectN();
 	if(isConnectN == 0) {
+		if(depth < PROB_THRESHOLD) return node.heuristic();
 	    return maximizingPlayer ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 	} else if(isConnectN == 1) {
+		if(depth < PROB_THRESHOLD) return node.heuristic();
 	    return Integer.MAX_VALUE; 
 	} else if(isConnectN == 2) {
+		if(depth < PROB_THRESHOLD) return node.heuristic();
 	    return Integer.MIN_VALUE;
 	} else if(depth == 0 || System.nanoTime() - turnStartTime > (timeLimit-1)*1000000000L) {
 	    return node.heuristic();
