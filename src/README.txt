@@ -1,0 +1,31 @@
+authors: Ryan Killea and Adilet Issayev
+
+project: Adverserial Search (Connect-N)
+
+project description: The project is designing and implementing a system that plays Connect-N. 
+					 The objective of Connect-N is to get N checkers in a row vertically, 
+					 horizontally  or diagonally.THe program uses the minimax 
+					 algorithm and alpha-beta pruning to determine the best move.
+					 
+How to run:		
+
+Import project as an existing Eclipse project
+
+	1) open files/project in Eclipse (Mac or Windows)
+	2) create jar file from the project
+	3) Select and right click project
+	4) Choose Export
+	5) Select Java -> Runnable JAR file
+	6) In configuration menu -> Launch configuration - PROJECTNAME
+	7) Choose export destination and export file name
+	8) finish
+	
+Now you have the runnable jar file from our project. Select it to run with referee
+
+Example:
+exported file name: test1
+exported file name: test2
+
+java -jar Referee.jar "java -jar test1.jar" "java -jar test2.jar" 6 7 4 10 10
+
+	
