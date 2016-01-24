@@ -1,3 +1,5 @@
+/* @authors: Ryan Killea and Adilet Issayev*/
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,8 +16,14 @@ public class Main {
     public static Board board;
     public static long turnStartTime;
     public static int BRANCH_FACTOR_DROP = 4;
-    public static int PROB_THRESHOLD = 5;
+    public static int PROB_THRESHOLD = 4;
     public static int DEPTH = 10;
+    public static int completeSearch = 0;
+    public static double LOG_TIME_SCALING_CONSTANT;
+    public static double C1_TIME_SCALING_CONSTANT;
+    public static boolean ranOutOfTime = false;
+    public static double aBF;
+    public static int aBFcount;
     public static Random r = new Random();
     private static void processInput(Integer column, Integer moveType) {
 	if(moveType == 1) {
@@ -30,7 +38,10 @@ public class Main {
 	} else {
 		board.removeADiscFromBottom(move.get(0));
 	}
-	board.printBoard();
+	//board.printBoard();
+	//System.out.println("Completed search: " + completeSearch + " times");
+	//System.out.println("Ran out of time: " + (ranOutOfTime ? "True" : "False"));
+	//System.out.println("Average branching factor: " + aBF);
     }
     public static void main(String[] args) {
 	// Announce ourselves
@@ -59,6 +70,7 @@ public class Main {
 	connectN = Integer.parseInt(ls1.get(2));
 	goingFirst = (Integer.parseInt(ls1.get(3)) == 2) ^ player1;
 	timeLimit = Integer.parseInt(ls1.get(4));
+	DEPTH = (10*columns)/7;
 	board = new Board(rows, columns, connectN);
 	if(goingFirst) {
 	    board.dropADiscFromTop(columns/2, 1);
@@ -117,14 +129,20 @@ public class Main {
 	int isConnectN = node.board.isConnectN();
 	if(isConnectN == 0) {
 		if(depth < PROB_THRESHOLD) return node.heuristic();
-	    return maximizingPlayer ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+		// we want to not tie if we're going first, and we want to tie if we're going second
+		// tie is still worse than winning
+	    return goingFirst ? Integer.MIN_VALUE + 1 + DEPTH - depth : Integer.MAX_VALUE - 1;
 	} else if(isConnectN == 1) {
+		// if we're in the probabilistic estimate portion it has to be a heuristic
 		if(depth < PROB_THRESHOLD) return node.heuristic();
-	    return Integer.MAX_VALUE; 
+	    return Integer.MAX_VALUE; // the best outcome is always to win
 	} else if(isConnectN == 2) {
+		// if we're in the probabilistic estimate portion it has to be a heuristic
 		if(depth < PROB_THRESHOLD) return node.heuristic();
-	    return Integer.MIN_VALUE;
+		//  we try to lose as slowly as possible
+	    return Integer.MIN_VALUE + 1 + DEPTH - depth;
 	} else if(depth == 0 || System.nanoTime() - turnStartTime > (timeLimit-1)*1000000000L) {
+		//if(depth == 0) { completeSearch++; } else { ranOutOfTime = true; }
 	    return node.heuristic();
 	}
 	ArrayList<Node> children = node.children();

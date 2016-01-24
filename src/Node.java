@@ -1,3 +1,4 @@
+/* @authors: Ryan Killea and Adilet Issayev*/
 import java.util.ArrayList;
 
 public class Node {
@@ -24,6 +25,8 @@ public class Node {
 		
 	    }
 	}
+	//Main.aBF = (Main.aBF*Main.aBFcount + rtn.size())/(Main.aBFcount + 1);
+	//Main.aBFcount++;
 	return rtn;
     }
 
@@ -84,12 +87,12 @@ public class Node {
 		if(board.board[Board.height-1-y][x] == 1){
 		    max1++;
 		    max2=0;
-		    rtn += max1/2;
+		    rtn += max1;
 		}
 		else if(board.board[Board.height-1-y][x] == 2){
 		    max1=0;
 		    max2++;
-		    rtn -= max2/2;
+		    rtn -= max2;
 		}
 		else{
 		    max1=0;
@@ -114,12 +117,12 @@ public class Node {
 		if(board.board[Board.height-1-y][x] == 1){
 		    max1++;
 		    max2=0;
-		    rtn += max1/2;
+		    rtn += max1;
 		}
 		else if(board.board[Board.height-1-y][x] == 2){
 		    max1=0;
 		    max2++;
-		    rtn -= max2/2;
+		    rtn -= max2;
 		}
 		else{
 		    max1=0;

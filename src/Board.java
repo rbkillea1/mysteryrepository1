@@ -1,13 +1,4 @@
-
-/**
- * This code is created for cs 4341 AI 2013a at WPI. All rights are reserved. 
- */
-
-
-/**
- * @author lzhu
- *
- */
+/* @authors: Ryan Killea and Adilet Issayev*/
 public class Board {
 	
     public static int width;
