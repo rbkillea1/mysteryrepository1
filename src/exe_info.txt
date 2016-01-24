@@ -7,6 +7,9 @@ project description: The project is designing and implementing a system that pla
 					 horizontally  or diagonally.THe program uses the minimax 
 					 algorithm and alpha-beta pruning to determine the best move.
 					 
+					 
+##################################################################################
+					 
 How to run:		
 
 Import project as an existing Eclipse project
@@ -27,5 +30,7 @@ exported file name: test1
 exported file name: test2
 
 java -jar Referee.jar "java -jar test1.jar" "java -jar test2.jar" 6 7 4 10 10
+
+##################################################################################
 
 	
